@@ -1,3 +1,21 @@
 from django.db import models
 
-# Create your models here.
+
+class Payment(models.Model):
+    class StatusChoices(models.TextChoices):
+        PENDING = "PENDING"
+        PAID = "PAID"
+
+    class TypeChoices(models.TextChoices):
+        PAYMENT = "PAYMENT"
+        FINE = "FINE"
+
+    status = models.CharField(choices=StatusChoices.choices, )
+    payment_type = models.CharField(choices=TypeChoices.choices, )
+    borrowing_id = models.IntegerField()
+    session_url = models.URLField()
+    session_id = models.IntegerField()
+    money_to_pay = models.DecimalField(max_digits=10, decimal_places=2)
+
+    def __str__(self):
+        return f"Borrowing ID: {self.borrowing_id}, Status: {self.status}, Type: {self.payment_type}"
