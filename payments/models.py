@@ -1,3 +1,4 @@
+from django.core.exceptions import ValidationError
 from django.db import models
 
 
@@ -16,6 +17,10 @@ class Payment(models.Model):
     session_url = models.URLField()
     session_id = models.IntegerField()
     money_to_pay = models.DecimalField(max_digits=10, decimal_places=2)
+
+    def clean(self):
+        if self.money_to_pay < 0:
+            raise ValidationError("Money to pay  must be a non-negative integer.")
 
     def __str__(self):
         return f"Borrowing ID: {self.borrowing_id}, Status: {self.status}, Type: {self.payment_type}"
