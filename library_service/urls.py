@@ -29,5 +29,8 @@ urlpatterns = [
                       "api/borrowings/",
                       include("borrowings.urls", namespace="borrowings"), ),
                   path(
+                      "api/payments/",
+                      include("payments.urls", namespace="payments"), ),
+                  path(
                       "api/user/", include("users.urls", namespace="user"), ),
               ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

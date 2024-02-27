@@ -10,8 +10,8 @@ class Payment(models.Model):
         PAYMENT = "PAYMENT"
         FINE = "FINE"
 
-    status = models.CharField(choices=StatusChoices.choices, )
-    payment_type = models.CharField(choices=TypeChoices.choices, )
+    status = models.CharField(max_length=10, choices=StatusChoices.choices, )
+    payment_type = models.CharField(max_length=10, choices=TypeChoices.choices, )
     borrowing_id = models.IntegerField()
     session_url = models.URLField()
     session_id = models.IntegerField()
