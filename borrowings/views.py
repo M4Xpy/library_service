@@ -8,6 +8,7 @@ from books.models import Book
 from borrowings.models import Borrowing
 from borrowings.serializers import BorrowingSerializer
 from library_service.settings import TELEGRAM_CHAT_ID, TELEGRAM_BOT_TOKEN
+from users.permissions import IsAdminOrIfAuthenticatedReadOnly
 
 
 def send_telegram_message(message):
@@ -38,7 +39,7 @@ def send_telegram_message(message):
 class BorrowingViewSet(viewsets.ModelViewSet):
     queryset = Borrowing.objects.all()
     serializer_class = BorrowingSerializer
-    # permission_classes = IsAdminOrIfAuthenticatedReadOnly,
+    permission_classes = IsAdminOrIfAuthenticatedReadOnly,
 
     def get_queryset(self):
         queryset = self.queryset
