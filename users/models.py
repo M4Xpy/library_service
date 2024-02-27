@@ -62,3 +62,7 @@ class User(AbstractUser):
     REQUIRED_FIELDS = []
 
     objects = UserManager()
+
+
+User._meta.get_field('groups').remote_field.related_name = 'user_groups'
+User._meta.get_field('user_permissions').remote_field.related_name = 'user_permissions_set'

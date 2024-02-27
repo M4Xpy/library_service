@@ -48,7 +48,7 @@ INSTALLED_APPS = [
     "drf_spectacular",
     "debug_toolbar",
     "books",
-    # "users",
+    "users",
     "payments",
     "borrowings",
     'django_celery_results',
