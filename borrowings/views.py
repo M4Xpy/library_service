@@ -12,10 +12,13 @@ from users.permissions import IsAdminOrIfAuthenticatedReadOnly
 
 
 def send_telegram_message(message):
-    requests.post(f"https://api.telegram.org/bot{TELEGRAM_BOT_TOKEN}/sendMessage",
-                  {"chat_id": TELEGRAM_CHAT_ID,
-                   "text": message, },
-                  )
+    requests.post(
+        f"https://api.telegram.org/bot{TELEGRAM_BOT_TOKEN}/sendMessage",
+        {
+            "chat_id": TELEGRAM_CHAT_ID,
+            "text": message,
+        },
+    )
 
 
 @extend_schema(
@@ -39,7 +42,7 @@ def send_telegram_message(message):
 class BorrowingViewSet(viewsets.ModelViewSet):
     queryset = Borrowing.objects.all()
     serializer_class = BorrowingSerializer
-    permission_classes = IsAdminOrIfAuthenticatedReadOnly,
+    permission_classes = (IsAdminOrIfAuthenticatedReadOnly,)
 
     def get_queryset(self):
         queryset = self.queryset
@@ -48,7 +51,8 @@ class BorrowingViewSet(viewsets.ModelViewSet):
 
         if user_id:
             queryset = queryset.filter(
-                user_id=user_id, )
+                user_id=user_id,
+            )
 
         if is_active:
             queryset = queryset.filter(actual_return_date__isnull=int(is_active) > 0)
@@ -59,23 +63,29 @@ class BorrowingViewSet(viewsets.ModelViewSet):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         self.perform_create(serializer)
-        self.update_inventory(serializer.validated_data['book_id'], -1)
-        send_telegram_message(f"Your borrowing book: "
-                              f"{serializer.validated_data['book_id']}, "
-                              f"return date is {serializer.validated_data['expected_return_date']}")
+        self.update_inventory(serializer.validated_data["book_id"], -1)
+        send_telegram_message(
+            f"Your borrowing book: "
+            f"{serializer.validated_data['book_id']}, "
+            f"return date is {serializer.validated_data['expected_return_date']}"
+        )
         headers = self.get_success_headers(serializer.data)
-        return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
+        return Response(
+            serializer.data, status=status.HTTP_201_CREATED, headers=headers
+        )
 
     def update(self, request, *args, **kwargs):
-        partial = kwargs.pop('partial', False)
+        partial = kwargs.pop("partial", False)
         instance = self.get_object()
         serializer = self.get_serializer(instance, data=request.data, partial=partial)
         serializer.is_valid(raise_exception=True)
 
-        if 'actual_return_date' in serializer.validated_data:
+        if "actual_return_date" in serializer.validated_data:
             if instance.actual_return_date:
                 raise ValidationError("This borrowing has already been returned.")
-            instance.actual_return_date = serializer.validated_data['actual_return_date']
+            instance.actual_return_date = serializer.validated_data[
+                "actual_return_date"
+            ]
         self.perform_update(serializer)
 
         if instance.actual_return_date:

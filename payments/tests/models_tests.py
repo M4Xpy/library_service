@@ -4,7 +4,6 @@ from payments.models import Payment
 
 
 class PaymentModelTestCase(TestCase):
-
     def test_successful_payment_creation(self):
         # Create a Payment with valid data
         payment = Payment.objects.create(

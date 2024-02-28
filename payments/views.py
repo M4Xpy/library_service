@@ -8,4 +8,4 @@ from users.permissions import IsAdminOrIfAuthenticatedReadOnly
 class PaymentViewSet(viewsets.ModelViewSet):
     queryset = Payment.objects.all()
     serializer_class = PaymentSerializer
-    permission_classes = IsAdminOrIfAuthenticatedReadOnly,
+    permission_classes = (IsAdminOrIfAuthenticatedReadOnly,)

@@ -13,7 +13,7 @@ class BorrowingSerializerTestCase(TestCase):
             expected_return_date=date.today() + timedelta(days=7),
             actual_return_date=None,
             book_id=1,
-            user_id=1
+            user_id=1,
         )
         serializer = BorrowingSerializer(borrowing)
 

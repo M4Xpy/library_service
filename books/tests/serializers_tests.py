@@ -10,7 +10,7 @@ class BookSerializerTestCase(TestCase):
             "title": "Test Book",
             "author": "Test Author",
             "cover": "HARD",
-            "daily_fee": "10.00"
+            "daily_fee": "10.00",
         }
         book = Book.objects.create(**book_data)
 
@@ -22,6 +22,6 @@ class BookSerializerTestCase(TestCase):
             "author": "Test Author",
             "cover": "HARD",
             "inventory": 0,
-            "daily_fee": "10.00"
+            "daily_fee": "10.00",
         }
         self.assertEqual(serializer.data, expected_data)

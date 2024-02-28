@@ -12,7 +12,7 @@ class PaymentSerializerTestCase(TestCase):
             borrowing_id=1,
             session_url="http://example.com",
             session_id=123,
-            money_to_pay=10.0
+            money_to_pay=10.0,
         )
         serializer = PaymentSerializer(payment)
 
@@ -23,6 +23,6 @@ class PaymentSerializerTestCase(TestCase):
             "borrowing_id": 1,
             "session_url": "http://example.com",
             "session_id": 123,
-            "money_to_pay": "10.00"
+            "money_to_pay": "10.00",
         }
         self.assertEqual(serializer.data, expected_data)
